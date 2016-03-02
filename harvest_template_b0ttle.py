@@ -34,6 +34,7 @@ signal.signal(signal.SIGINT, _signal_handler)
 
 import pywikibot
 from pywikibot import pagegenerators as pg, textlib, WikidataBot
+from pywikibot.tools.formatter import color_format
 
 docuReplacements = {'&params;': pywikibot.pagegenerators.parameterHelp}
 
@@ -55,7 +56,6 @@ class HarvestRobot(WikidataBot):
         super(HarvestRobot, self).__init__()
         self.generator = pg.PreloadingGenerator(generator)
         self.templateTitle = templateTitle.replace(u'_', u' ')
-        # TODO: Make it a list which also includes the redirects to the template
         self.fields = fields
         self.cacheSources()
         self.templateTitles = self.getTemplateSynonyms(self.templateTitle)
@@ -113,15 +113,11 @@ class HarvestRobot(WikidataBot):
             raise KeyboardInterrupt
         self.current_page = page
         item.get()
-#test désactivé par h4stings pour le cas des footeux (P54 multiple)
-#       if set(self.fields.values()) <= set(item.claims.keys()): 
-#           pywikibot.output('%s item %s has claims for all properties. '
-#                            'Skipping.' % (page, item.title()))
-#           return
-
         pagetext = page.get()
         # h4stings on vire les tableaux entraîneur
-        pagetext = re.sub(r'carrière entraîneur *= *{{trois colonnes', r'carrière entraîneur = {{Pouet', pagetext)        
+        pagetext = re.sub(r'carrière entraîneur *= *{{', r'carrière entraîneur = {{Pouet', pagetext)
+        pagetext = pagetext.replace('{{FRA football}}', '[[Équipe de France de football|France]]')
+        pagetext = pagetext.replace("{{ENG football}}", "[[Équipe d'Angleterre de football|Angleterre]]")
         templates = textlib.extract_templates_and_params(pagetext)
         for (template, fielddict) in templates:
             # Clean up template
@@ -191,95 +187,121 @@ class HarvestRobot(WikidataBot):
                                 % claim.type)
                             continue
 
-                        pywikibot.output(
-                            'hastings-test1 %s field %s value %s'
-                            % (claim.getID(), field, value))
+                        #pywikibot.output(
+                        #    '%s field %s value : %s'
+                        #    % (claim.getID(), field, value))
                             
                         #******** h4stings, mise en forme des qualifiers
+                        qualif = qualif.replace ('?', '')
                         qualif = qualif.replace ('[', '')
                         qualif = qualif.replace ('–', '-')
+                        qualif = qualif.replace (' ', '')
                         #si pas de tiret, 
                         if (qualif.find('-') == -1): 
                             qualif = qualif + '-' + qualif 
                         dates = qualif.split('-')
+                        wp_debut = None
+                        wp_fin = None
                         qualifier_debut = None
                         qualifier_fin = None
                         if dates[0]:
-                            date1=dates[0][:4]
+                            wp_debut = dates[0][:4]
                             qualifier_debut = pywikibot.Claim(self.repo, u'P580', isQualifier=True)
-                            qualifier_debut.setTarget(pywikibot.WbTime(year=date1))
-                            pywikibot.output(' fr %s'
-                                % qualifier_debut.getTarget().toTimestr())
+                            qualifier_debut.setTarget(pywikibot.WbTime(year=wp_debut))
+                            #pywikibot.output(' from %s'
+                            #   % qualifier_debut.getTarget().toTimestr())
                         if dates[1]:
-                            date2=dates[1][:4]
+                            wp_fin = dates[1][:4]
                             qualifier_fin = pywikibot.Claim(self.repo, u'P582', isQualifier=True)
-                            qualifier_fin.setTarget(pywikibot.WbTime(year=date2))
-                            pywikibot.output(' to %s'
-                                % qualifier_fin.getTarget().toTimestr())
+                            qualifier_fin.setTarget(pywikibot.WbTime(year=wp_fin))
+                            #pywikibot.output(' to %s'
+                            #   % qualifier_fin.getTarget().toTimestr())
 
-                        existing_claims = item.claims[claim.getID()]  # Existing claims on page of same property
                         skip = False
-                        
-                        for existing in existing_claims:
-                            existing580 = None
-                            existing582 = None
+                        if claim.getID() in item.claims:
+                            existing_claims = item.claims[claim.getID()]  # Existing claims on page of same property
+                            skip = False
                             
-                            # If some attribute of the claim being added matches some attribute in an existing claim
-                            # of the same property, skip the claim, unless the 'exists' argument overrides it.
-                            if claim.getTarget() == existing.getTarget():
+                            for existing in existing_claims:
+                                existing580 = None
+                                existing582 = None
                                 
-                                #******** on va chercher les qualifiers :
-                                for qfield, qvalue in existing.qualifiers.items():
-                                    if qfield.strip() == 'P580':
-                                        existing580 = qvalue
-                                    if qfield.strip() == 'P582':
-                                        existing582 = qvalue
-                                if existing580 is not None:
-                                    pywikibot.output('fr %s '
-                                        % existing580[0].getTarget().toTimestr())
-                                if existing582 is not None:
-                                    pywikibot.output(' to %s'
-                                        % existing582[0].getTarget().toTimestr())
+                                # If some attribute of the claim being added matches some attribute in an existing claim
+                                # of the same property, skip the claim, unless the 'exists' argument overrides it.
+                                if claim.getTarget() == existing.getTarget():
+                                    
+                                    #******** on va chercher les qualifiers existants :
+                                    wd_debut = None
+                                    wd_fin = None
+                                    for qfield, qvalue in existing.qualifiers.items():
+                                        if qfield.strip() == 'P580':
+                                            existing580 = qvalue
+                                            wd_debut = existing580[0].getTarget().toTimestr()[8:12]
+                                        if qfield.strip() == 'P582':
+                                            existing582 = qvalue
+                                            wd_fin = existing582[0].getTarget().toTimestr()[8:12]
+                                    #if existing580 is not None:
+                                    #   pywikibot.output('from %s -> %s'
+                                    #       % (existing580[0].getTarget().toTimestr(), wd_debut))
+                                    #if existing582 is not None:
+                                    #   pywikibot.output(' to %s -> %s'
+                                    #       % (existing582[0].getTarget().toTimestr(), wd_fin))
+                                            
+                                    #TEMP : histoire d'accélerer les débuts : si on a un qualif 580 c'est qu'on a probablement un joueur déjà complétement checké >> on passe
+                                    if existing580 :
+                                        return
+                                    
+                                    #si existant sans qualif -> on ajoute les qualif
+                                    if not existing580 and not existing582:
+                                        if dates[0]:
+                                            existing.addQualifier(qualifier_debut)
+                                            pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
+                                                % (wp_debut,value)))
+                                        if dates[1]:
+                                            existing.addQualifier(qualifier_fin)
+                                            pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
+                                                % (wp_fin,value)))
+                                        skip=True
+                                        break
+                                    
+                                    #sinon, même qualifier : on passe (skip=true)
+                                    elif wd_debut == wp_debut and qualifier_fin is None:
+                                        pywikibot.output(
+                                            'Skipping %s because claim with same target already exists.' 
+                                            % value)
+                                        skip=True
+                                        break
+
+                                    elif qualifier_debut is None and wd_fin == wp_fin:
+                                        pywikibot.output(
+                                            'Skipping %s because claim with same target already exists.' 
+                                            % value)
+                                        skip=True
+                                        break
+                                    elif wd_debut == wp_debut and wd_fin == wp_fin:
+                                        pywikibot.output(
+                                            'Skipping %s because claim with same target already exists.' 
+                                            % value)
+                                        skip=True
+                                        break
                                         
-                                #si existant sans qualif -> on ajoute les qualif
-                                if not existing580 and not existing582:
-                                    if dates[0]:
-                                        existing.addQualifier(qualifier_debut)
-                                        pywikibot.output('adding %s as a qualifier'
-                                            % date1)
-                                    if dates[1]:
-                                        existing.addQualifier(qualifier_fin)
-                                        pywikibot.output('adding %s as a qualifier'
-                                            % date2)
-                                    skip=True
-                                    break
-                                
-                                #sinon, même qualifier : on passe (skip=true)
-                                elif qualifier_debut.getTarget() == existing580[0].getTarget() and qualifier_fin.getTarget() == existing582[0].getTarget():
-                                    pywikibot.output(
-                                        'Skipping %s because claim with same target already exists.' 
-                                        % claim.getID())
-                                    skip=True
-                                    break
-                                    
-                                #sinon, si les dates ne se chevauchent pas, on envisage la création...
-                                elif qualifier_debut.getTarget().toTimestr() >= existing582[0].getTarget().toTimestr() or qualifier_fin.getTarget().toTimestr() <= existing580[0].getTarget().toTimestr():
-                                    skip=False
-                                    
-                                #sinon, c'est bizarre : on logue. 
-                                else:
-                                    pywikibot.output(
-                                        'Vérifier les qualifiers de %s' 
-                                        % claim.getID())
-                                    pywikibot.log(
-                                        'Vérifier les qualifiers de %s' 
-                                        % claim.getID())
-                                    skip=True
+                                    #sinon, si les dates ne se chevauchent pas, on envisage la création...
+                                    elif int(wp_debut) >= int(wd_fin) or int(wp_fin) <= int(wd_debut): 
+                                        pywikibot.output('maybe %s'
+                                             % value)
+                                        skip=False
+                                        
+                                    #sinon, c'est bizarre : on signale. 
+                                    else:
+                                        pywikibot.output(color_format(
+                                            '{red}Incohérence détectée ! Vérifier les qualifiers de %s %s %s' 
+                                            % (claim.getID(), field, value)))
+                                        skip=True
                                                                     
                         #******* h4stings, si le club n'est pas dans wikidata : la totale, on se pose pas la question
                         if not skip:
-                            pywikibot.output('Adding %s --> %s, from %s to %s'
-                                             % (claim.getID(), claim.getTarget(), date1, date2))
+                            pywikibot.output(color_format('{green}adding %s --> %s, from %s to %s'
+                                             % (claim.getID(), claim.getTarget(), wp_debut, wp_fin)))
                             item.addClaim(claim)
                             # A generator might yield pages from multiple languages
                             source = self.getSource(page.site)
