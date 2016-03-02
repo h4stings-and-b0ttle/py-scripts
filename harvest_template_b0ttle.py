@@ -300,8 +300,8 @@ class HarvestRobot(WikidataBot):
                                                                     
                         #******* h4stings, si le club n'est pas dans wikidata : la totale, on se pose pas la question
                         if not skip:
-                            pywikibot.output(color_format('{green}adding %s --> %s, from %s to %s'
-                                             % (claim.getID(), claim.getTarget(), wp_debut, wp_fin)))
+                            pywikibot.output(color_format('{green}adding %s --> %s : %s, from %s to %s'
+                                             % (claim.getID(), claim.getTarget(), value, wp_debut, wp_fin)))
                             item.addClaim(claim)
                             # A generator might yield pages from multiple languages
                             source = self.getSource(page.site)
