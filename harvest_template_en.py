@@ -157,32 +157,54 @@ class HarvestRobot(WikidataBot):
                 % (claim.getID(), value))
             
         #******** h4stings, nettoyage des qualifiers
-        qualif = qualif.replace ('–', '-')
-        qualif = qualif.replace ('avant ', '-')
-        qualif = re.sub(r'{{0(\|0+)?}}', '', qualif)
-        qualif = re.sub(r'[a-zA-Zéêû&; \.\[\?\]\{\}\|]', '', qualif)
+        if qualif:
+            qualif = qualif.replace ('–', '-')
+            qualif = qualif.replace ('&ndash;', '-')
+            qualif = re.sub(r'{{0(\|0+)?}}', '', qualif)
+            qualif = re.sub(r'<ref.*<\/ref>', '', qualif)
+            qualif = re.sub(r'<ref.*\/ *>', '', qualif)            
+            qualif = re.sub(r'[a-zA-Zéêû&; \'\.\[\?\]\{\}\|]', '', qualif)
         #si pas de tiret, 
         if (qualif.find('-') == -1): 
             qualif = qualif + '-' + qualif 
         dates = qualif.split('-')
-        wp_debut = None
-        wp_fin = None
+        wp_debut = ''
+        wp_fin = ''
         qualifier_debut = None
         qualifier_fin = None
         if dates[0]:
             wp_debut = dates[0][:4]
-            qualifier_debut = pywikibot.Claim(self.repo, u'P580', isQualifier=True)
-            qualifier_debut.setTarget(pywikibot.WbTime(year=wp_debut))
-            if self.param_debug:
-                pywikibot.output(' from %s'
-                    % qualifier_debut.getTarget().toTimestr())
-        if dates[1]:
-            wp_fin = dates[1][:4]
-            qualifier_fin = pywikibot.Claim(self.repo, u'P582', isQualifier=True)
-            qualifier_fin.setTarget(pywikibot.WbTime(year=wp_fin))
-            if self.param_debug:
-                pywikibot.output(' to %s'
-                    % qualifier_fin.getTarget().toTimestr())
+            if wp_debut.isdigit():
+                if len(wp_debut)==4:
+                    qualifier_debut = pywikibot.Claim(self.repo, u'P580', isQualifier=True)
+                    qualifier_debut.setTarget(pywikibot.WbTime(year=wp_debut))
+                    if self.param_debug:
+                        pywikibot.output(' from %s'
+                            % qualifier_debut.getTarget().toTimestr())
+                            
+                    if dates[1]:
+                        wp_fin = dates[1][:4]
+                        if wp_fin.isdigit():
+                            if len(wp_fin)==4:
+                                qualifier_fin = pywikibot.Claim(self.repo, u'P582', isQualifier=True)
+                                qualifier_fin.setTarget(pywikibot.WbTime(year=wp_fin))
+                                if self.param_debug:
+                                    pywikibot.output(' to %s'
+                                        % qualifier_fin.getTarget().toTimestr())
+                            else:
+                                pywikibot.output('date à 2 chiffres... %s %s'
+                                    % (value, dates[1]))
+                        else:
+                            pywikibot.output(
+                                'incohérence %s : %s'
+                                % (value, dates[1]))
+                else:
+                    pywikibot.output('date à 2 chiffres... %s %s'
+                        % (value, dates[0]))
+            else:
+                pywikibot.output(
+                    'incohérence %s : %s'
+                    % (value, dates[0]))
 
         skip = False
             
@@ -218,11 +240,11 @@ class HarvestRobot(WikidataBot):
                     
                     #si existant sans qualif -> on ajoute les qualif
                     if not existing580 and not existing582:
-                        if dates[0]:
+                        if qualifier_debut is not None:
                             existing.addQualifier(qualifier_debut)
                             pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
                                 % (wp_debut,value)))
-                        if dates[1]:
+                        if qualifier_fin is not None:
                             existing.addQualifier(qualifier_fin)
                             pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
                                 % (wp_fin,value)))
@@ -337,31 +359,33 @@ class HarvestRobot(WikidataBot):
                         % fielddict)
 
                 for i in range(1, 40):
-                    value = None
-                    qualif = None
+                    value = ""
+                    qualif = ""
                     if self.param_debug:
                         pywikibot.output(
                             'hastings-test0 %s -> %s & %s -> %s' 
                             % ("clubs"+str(i), fielddict.get("clubs"+str(i)), "years"+str(i), fielddict.get("years"+str(i))))
                             
                     if fielddict.get("clubs"+str(i)):
-                        value = fielddict.get("clubs"+str(i))
-                        qualif = fielddict.get("years"+str(i))
+                        value = fielddict["clubs"+str(i)]
+                        if fielddict.get("years"+str(i)):
+                            qualif = fielddict["years"+str(i)]
                         self.adding(item, value, qualif, page)
                     else:
                         break
                         
                 for j in range(1, 10):
-                    value = None
-                    qualif = None
+                    value = ""
+                    qualif = ""
                     if self.param_debug:
                         pywikibot.output(
                             'hastings-test0 %s -> %s & %s -> %s' 
                             % ("clubs"+str(j), fielddict.get("clubs"+str(j)), "years"+str(j), fielddict.get("years"+str(j))))
                             
                     if fielddict.get("nationalteam"+str(j)):
-                        value = fielddict.get("nationalteam"+str(j))
-                        qualif = fielddict.get("nationalyears"+str(j))
+                        value = fielddict["nationalteam"+str(j)]
+                        if fielddict.get("nationalyears"+str(j)):
+                            qualif = fielddict["nationalyears"+str(j)]
                         self.adding(item, value, qualif, page)
                     else:
                         break

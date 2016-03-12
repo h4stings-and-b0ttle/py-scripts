@@ -763,6 +763,8 @@ class HarvestRobot(WikidataBot):
                     value = value.strip()
                     if not field or not value:
                         continue
+                    if not field.isdigit():
+                        continue
                     if self.param_debug:
                         pywikibot.output(
                             'hastings-test0 %s -> %s (%s)' 
@@ -820,43 +822,66 @@ class HarvestRobot(WikidataBot):
                             pywikibot.output(
                                 '%s field %s value : %s'
                                 % (claim.getID(), field, value))
+
                             
                         #******** h4stings, nettoyage des qualifiers
+                        skip = False
                         qualif = qualif.replace ('–', '-')
+                        qualif = qualif.replace ('&ndash;', '-')
                         qualif = qualif.replace ('avant ', '-')
                         #qualif = qualif.replace ('{{Clr}}', '')
                         #qualif = qualif.replace ('{{Year|', '')
                         #qualif = qualif.replace ('{{prêt}}', '')
+                        qualif = re.sub(r'<ref.*<\/ref>', '', qualif)
+                        qualif = re.sub(r'<ref.*\/ *>', '', qualif)            
                         qualif = re.sub(r'{{0(\|0+)?}}', '', qualif)
                         qualif = re.sub(r'[a-zA-Zéêû&; \.\[\?\]\{\}\|]', '', qualif)
                         #si pas de tiret, 
                         if (qualif.find('-') == -1): 
                             qualif = qualif + '-' + qualif 
                         dates = qualif.split('-')
-                        wp_debut = None
-                        wp_fin = None
+                        wp_debut = ''
+                        wp_fin = ''
                         qualifier_debut = None
                         qualifier_fin = None
                         if dates[0]:
                             wp_debut = dates[0][:4]
-                            qualifier_debut = pywikibot.Claim(self.repo, u'P580', isQualifier=True)
-                            qualifier_debut.setTarget(pywikibot.WbTime(year=wp_debut))
-                            if self.param_debug:
-                                pywikibot.output(' from %s'
-                                    % qualifier_debut.getTarget().toTimestr())
-                        if dates[1]:
-                            wp_fin = dates[1][:4]
-                            qualifier_fin = pywikibot.Claim(self.repo, u'P582', isQualifier=True)
-                            qualifier_fin.setTarget(pywikibot.WbTime(year=wp_fin))
-                            if self.param_debug:
-                                pywikibot.output(' to %s'
-                                    % qualifier_fin.getTarget().toTimestr())
-
-                        skip = False
+                            if wp_debut.isdigit():
+                                if len(wp_debut)==4:
+                                    qualifier_debut = pywikibot.Claim(self.repo, u'P580', isQualifier=True)
+                                    qualifier_debut.setTarget(pywikibot.WbTime(year=wp_debut))
+                                    if self.param_debug:
+                                        pywikibot.output(' from %s'
+                                            % qualifier_debut.getTarget().toTimestr())
+                                    
+                                    if dates[1]:
+                                        wp_fin = dates[1][:4]
+                                        if wp_fin.isdigit():
+                                            if len(wp_fin)==4:
+                                                qualifier_fin = pywikibot.Claim(self.repo, u'P582', isQualifier=True)
+                                                qualifier_fin.setTarget(pywikibot.WbTime(year=wp_fin))
+                                                if self.param_debug:
+                                                    pywikibot.output(' to %s'
+                                                        % qualifier_fin.getTarget().toTimestr())
+                                            else:
+                                                pywikibot.output(color_format(
+                                                    '{yellow}Error - date fin à 2 chiffres : %s %s'
+                                                    % (value, dates[1])))
+                                        else:
+                                            pywikibot.output(color_format(
+                                                '{yellow}Error - date fin pas numérique : %s %s'
+                                                % (value, dates[1])))
+                                else:
+                                    pywikibot.output(color_format(
+                                        '{yellow}Error - date début à 2 chiffres : %s %s'
+                                        % (value, dates[0])))
+                            else:
+                                pywikibot.output(color_format(
+                                    '{yellow}Error - date début pas numérique : %s %s'
+                                    % (value, dates[0])))
                             
                         if claim.getID() in item.claims:
                             existing_claims = item.claims[claim.getID()]  # Existing claims on page of same property
-                            skip = False
                 
                             for existing in existing_claims:
                                 existing580 = None
@@ -886,11 +911,11 @@ class HarvestRobot(WikidataBot):
                                     
                                     #si existant sans qualif -> on ajoute les qualif
                                     if not existing580 and not existing582:
-                                        if dates[0]:
+                                        if qualifier_debut is not None:
                                             existing.addQualifier(qualifier_debut)
                                             pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
                                                 % (wp_debut,value)))
-                                        if dates[1]:
+                                        if qualifier_fin is not None:
                                             existing.addQualifier(qualifier_fin)
                                             pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
                                                 % (wp_fin,value)))
@@ -940,9 +965,9 @@ class HarvestRobot(WikidataBot):
                             source = self.getSource(page.site)
                             if source:
                                 claim.addSource(source, bot=True)
-                            if dates[0]:
+                            if qualifier_debut is not None:
                                 claim.addQualifier(qualifier_debut)
-                            if dates[1]:
+                            if qualifier_fin is not None:
                                 claim.addQualifier(qualifier_fin)
 def main(*args):
     """
