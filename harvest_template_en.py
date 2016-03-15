@@ -350,8 +350,8 @@ class HarvestRobot(WikidataBot):
                 for field, value in fielddict.items():
                     field_stripd = field.strip()
                     value_stripd = value.strip()
-                    fielddict[field_stripd] = value_stripd
                     del fielddict[field]
+                    fielddict[field_stripd] = value_stripd
                     
                 if self.param_debug:
                     pywikibot.output(
