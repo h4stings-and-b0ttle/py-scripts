@@ -108,11 +108,7 @@ class HarvestRobot(WikidataBot):
         return linked_item
 
     def adding(self, item, value, qualif, page):
-    
-        if self.param_debug:
-            pywikibot.output(
-                'hastings-test1 %s & %s' 
-                % (value, qualif))
+
         claim = pywikibot.Claim(self.repo, 'P54')
         if claim.type == 'wikibase-item':
             # Try to extract a valid page
@@ -168,10 +164,15 @@ class HarvestRobot(WikidataBot):
         if (qualif.find('-') == -1): 
             qualif = qualif + '-' + qualif 
         dates = qualif.split('-')
+
+        #récup info et definition des qualifiers correspondants
         wp_debut = ''
         wp_fin = ''
+        wp_pret = False
         qualifier_debut = None
         qualifier_fin = None
+        qualifier_pret = None
+
         if dates[0]:
             wp_debut = dates[0][:4]
             if wp_debut.isdigit():
@@ -192,44 +193,58 @@ class HarvestRobot(WikidataBot):
                                     pywikibot.output(' to %s'
                                         % qualifier_fin.getTarget().toTimestr())
                             else:
-                                pywikibot.output('date à 2 chiffres... %s %s'
+                                pywikibot.output('date fin ignorée : %s %s'
                                     % (value, dates[1]))
+                                wp_fin = ''
                         else:
                             pywikibot.output(
                                 'incohérence %s : %s'
                                 % (value, dates[1]))
                 else:
-                    pywikibot.output('date à 2 chiffres... %s %s'
+                    pywikibot.output('date début ignorée : %s %s'
                         % (value, dates[0]))
+                    wp_debut = ''
             else:
                 pywikibot.output(
                     'incohérence %s : %s'
                     % (value, dates[0]))
-
-        skip = False
-            
+        
+        if (value.find('loan') > -1): 
+            wp_pret = True
+            qualifier_pret = pywikibot.Claim(self.repo, u'P1642', isQualifier=True)
+            qualifier_pret.setTarget( pywikibot.ItemPage(self.repo, "Q2914547"))
+            if self.param_debug:
+                pywikibot.output('loan OK')
+        
+        #on regarde ce qu'il y a dans le P54
+        skip_claim = False
         if claim.getID() in item.claims:
             existing_claims = item.claims[claim.getID()]  # Existing claims on page of same property
-            skip = False
-
             for existing in existing_claims:
-                existing580 = None
-                existing582 = None
-                
-                # If some attribute of the claim being added matches some attribute in an existing claim
-                # of the same property, skip the claim, unless the 'exists' argument overrides it.
+
+                # si on retrouve dans WD le club de l'infobox (ça devient intéressant)
                 if claim.getTarget() == existing.getTarget():
-                    
-                    #******** on va chercher les qualifiers existants :
+                    # on récupère les qualifiers dans WD
+                    existing580 = None
+                    existing582 = None
+                    existing1642 = None
+                    qual_added = False
                     wd_debut = None
                     wd_fin = None
+                    wd_pret = None
                     for qfield, qvalue in existing.qualifiers.items():
                         if qfield.strip() == 'P580':
                             existing580 = qvalue
-                            wd_debut = existing580[0].getTarget().toTimestr()[8:12]
+                            if existing580[0].getTarget() is not None:
+                                wd_debut = existing580[0].getTarget().toTimestr()[8:12]
                         if qfield.strip() == 'P582':
                             existing582 = qvalue
-                            wd_fin = existing582[0].getTarget().toTimestr()[8:12]                                        
+                            if existing582[0].getTarget() is not None:
+                                wd_fin = existing582[0].getTarget().toTimestr()[8:12]
+                        if qfield.strip() == 'P1642':
+                            existing1642 = qvalue
+                            if existing1642[0].getTarget() is not None:
+                                wd_pret = existing582[0].getTarget()
                     if self.param_debug:
                         if existing580 is not None:
                             pywikibot.output('from %s -> %s'
@@ -237,67 +252,69 @@ class HarvestRobot(WikidataBot):
                         if existing582 is not None:
                             pywikibot.output(' to %s -> %s'
                                 % (existing582[0].getTarget().toTimestr(), wd_fin))
-                    
-                    #si existant sans qualif -> on ajoute les qualif
-                    if not existing580 and not existing582:
-                        if qualifier_debut is not None:
-                            existing.addQualifier(qualifier_debut)
-                            pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
-                                % (wp_debut,value)))
-                        if qualifier_fin is not None:
-                            existing.addQualifier(qualifier_fin)
-                            pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
-                                % (wp_fin,value)))
-                        skip=True
-                        break
-                    
-                    #sinon, même qualifier : on passe (skip=true)
-                    elif wd_debut == wp_debut and qualifier_fin is None:
+                        if existing1642 is not None:
+                            pywikibot.output(' loan %s -> %s'
+                                % (existing1642[0].getTarget(), wd_pret))
+
+                    #si mêmes qualifiers : on passe
+                    if (wd_debut == wp_debut or qualifier_debut is None) and (wd_fin == wp_fin or qualifier_fin is None) and (existing1642 is not None or qualifier_pret is None):
                         pywikibot.output(
                             'Skipping %s because claim with same target already exists.' 
                             % value)
-                        skip=True
+                        skip_claim=True
                         break
 
-                    elif qualifier_debut is None and wd_fin == wp_fin:
-                        pywikibot.output(
-                            'Skipping %s because claim with same target already exists.' 
-                            % value)
-                        skip=True
-                        break
-                    elif wd_debut == wp_debut and wd_fin == wp_fin:
-                        pywikibot.output(
-                            'Skipping %s because claim with same target already exists.' 
-                            % value)
-                        skip=True
-                        break
+                    #ajout du qualif debut si on a une donnée à mettre, qu'il y a la place et date de fin cohérente
+                    if qualifier_debut is not None and not existing580 and (not existing582 or wd_fin == wp_fin):
+                        existing.addQualifier(qualifier_debut)
+                        pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
+                            % (wp_debut,value)))
+                        qual_added=True
+                    #ajout du qualif fin si on a une donnée, qu'il y a la place et que date de début cohérente
+                    if qualifier_fin is not None and not existing582 and (not existing580 or wd_debut == wp_debut):
+                        existing.addQualifier(qualifier_fin)
+                        pywikibot.output(color_format('{green}adding %s as a qualifier of %s'
+                            % (wp_fin,value)))
+                        qual_added=True
+                    #ajout du qualif prêt si on a une donnée, qu'il y a la place et que dates cohérentes
+                    if qualifier_pret is not None and not existing1642 and (wd_debut == wp_debut and wd_fin == wp_fin or qual_added):
+                        existing.addQualifier(qualifier_pret)
+                        pywikibot.output(color_format('{green}adding loan as a qualifier of %s'
+                            % value))
+                        qual_added=True
                         
-                    #sinon, si les dates ne se chevauchent pas, on envisage la création...
-                    elif wp_debut >= wd_fin or wp_fin <= wd_debut: 
-                        pywikibot.output('maybe %s'
-                             % value)
-                        skip=False
-                        
-                    #sinon, c'est bizarre : on signale. 
+                    if qual_added:
+                        skip_claim=True
+                        break
                     else:
-                        pywikibot.output(color_format(
-                            '{red}Error ? Incohérence détectée : %s %s' 
-                            % (claim.getID(), value)))
-                        skip=True
+                        #si les dates WD sont différentes, on continue la recherche
+                        if wp_debut >= wd_fin or wp_fin <= wd_debut: 
+                            pywikibot.output('maybe %s'
+                                 % value)
+                            
+                        #sinon (si les dates WP/WD se chevauchent), on signale 
+                        else:
+                            pywikibot.output(color_format(
+                                '{red}Error ? Incohérence détectée : %s %s' 
+                                % (claim.getID(), value)))
+                            skip_claim=True
+                            break
                                                     
         #******* h4stings, si le club n'est pas dans wikidata : la totale, on se pose pas la question
-        if not skip:
-            pywikibot.output(color_format('{green}adding %s --> %s : %s, from %s to %s'
-                             % (claim.getID(), claim.getTarget(), value, wp_debut, wp_fin)))
+        if not skip_claim:
+            pywikibot.output(color_format('{green}adding %s --> %s : %s, from %s to %s (loan : %s)'
+                             % (claim.getID(), claim.getTarget(), value, wp_debut, wp_fin, wp_pret)))
             item.addClaim(claim)
             # A generator might yield pages from multiple languages
             source = self.getSource(page.site)
             if source:
                 claim.addSource(source, bot=True)
-            if dates[0]:
+            if qualifier_debut is not None:
                 claim.addQualifier(qualifier_debut)
-            if dates[1]:
+            if qualifier_fin is not None:
                 claim.addQualifier(qualifier_fin)
+            if qualifier_pret is not None:
+                claim.addQualifier(qualifier_pret)
         
         return
     
@@ -355,7 +372,7 @@ class HarvestRobot(WikidataBot):
                     
                 if self.param_debug:
                     pywikibot.output(
-                        'hastings-test0 %s' 
+                        'hastings-test-wp0 %s' 
                         % fielddict)
 
                 for i in range(1, 40):
@@ -363,7 +380,7 @@ class HarvestRobot(WikidataBot):
                     qualif = ""
                     if self.param_debug:
                         pywikibot.output(
-                            'hastings-test0 %s -> %s & %s -> %s' 
+                            'hastings-test-wp0 %s -> %s & %s -> %s' 
                             % ("clubs"+str(i), fielddict.get("clubs"+str(i)), "years"+str(i), fielddict.get("years"+str(i))))
                             
                     if fielddict.get("clubs"+str(i)):
