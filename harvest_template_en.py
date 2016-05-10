@@ -111,21 +111,40 @@ class HarvestRobot(WikidataBot):
 
     def adding(self, item, value, qualif, page):
 
-        claim = pywikibot.Claim(self.repo, 'P54')
+        claim = pywikibot.Claim(self.repo, 'P54')                
+        #value=self.ger_cleaning(value)        
+        
         if claim.type == 'wikibase-item':
             # Try to extract a valid page
+            linked_item = None
+            
+            #si utilisation du modèle fb
             if re.search(r'{{fb',value):
                 value=self.nft_cleaning(value)
-            match = re.search(pywikibot.link_regex, value)
-            if not match:
-                pywikibot.output(
-                    '%s value %s is not a '
-                    'wikilink. Skipping.'
-                    % (claim.getID(), value))
-                return
+                        
+            #si pas d'article existant pour un élément donné
+            #if re.search(r'Estonia U-?15',value): 
+            #    linked_item = pywikibot.ItemPage(self.repo, "Q23930638")
 
-            link_text = match.group(1)
-            linked_item = self._template_link_target(item, link_text)
+            value = re.sub(r'\[\[([^\[]*) national football team\|[^\|]* U-?([12][0-9])\]\]', r'[[\1 national under-\2 football team]]', value)
+            value = re.sub(r'\[\[([^\[]*) national football team\|[^\|]* Olympics\]\]', r'[[\1 national under-23 football team]]', value)      
+            
+            #si suspicion d'ajout d'équipe B...           
+            if re.search(r'\|[A-Za-z \-`\']* B\]\]',value): 
+                pywikibot.output(color_format(
+                    '{red}B team ? to check : %s' 
+                    % value))
+            else:
+                match = re.search(pywikibot.link_regex, value)
+                if not match:
+                    pywikibot.output(
+                        '%s value %s is not a '
+                        'wikilink. Skipping.'
+                        % (claim.getID(), value))
+                    return
+                link_text = match.group(1)
+                linked_item = self._template_link_target(item, link_text)
+            
             if not linked_item:
                 return
 
@@ -153,7 +172,7 @@ class HarvestRobot(WikidataBot):
 
         if self.param_debug:
             pywikibot.output(
-                '%s value : %s'
+                '%s value after : %s'
                 % (claim.getID(), value))
             
         #******** h4stings, nettoyage des qualifiers
@@ -352,8 +371,8 @@ class HarvestRobot(WikidataBot):
                         #sinon (si les dates WP/WD se chevauchent), on signale 
                         else:
                             pywikibot.output(color_format(
-                                '{red}Error ? Incohérence détectée : %s %s' 
-                                % (claim.getID(), value)))
+                                '{red}Error ? Incohérence détectée : %s' 
+                                % value))
                             skip_claim=True
                             break
                                                     
@@ -361,39 +380,60 @@ class HarvestRobot(WikidataBot):
         if not skip_claim:
             #verif si instance de clubs ou sélection
             if self.param_safe :
-                item_to_check = pywikibot.ItemPage(self.repo, claim.getTarget().getID())  
+                item_to_check = pywikibot.ItemPage(self.repo, claim.getTarget().getID())
+                if self.param_debug:
+                    pywikibot.output('item to check %s' 
+                            % str(claim.getTarget().getID()))
                 item_to_check.get() 
                 if item_to_check.claims:
                     if 'P31' in item_to_check.claims:
                         claim_nature = item_to_check.claims['P31'] 
                         for existing in claim_nature:
+                            if self.param_debug:
+                                pywikibot.output('nature %s' 
+                                        % str(existing.getTarget().getID()))
                             #if l'item a pour nature un des id acceptés, c'est bon
-                            if existing.getTarget().getID() in ['Q476028', 'Q6979593', 'Q21945604', 'Q847017', 'Q12973014', 'Q15944511', 'Q14752149', 'Q6979740', 'Q2367225', 'Q4438121', 'Q18558301', 'Q15896028']:
-                                continue
-                pywikibot.output(color_format('{red}%s has not a valid nature' % claim.getTarget()))
-            
-            #c'est bon
-            pywikibot.output(color_format('{green}adding %s --> %s : %s, from %s to %s (loan : %s)'
-                             % (claim.getID(), claim.getTarget(), value, wp_debut, wp_fin, wp_pret)))
-            item.addClaim(claim)
-            source = self.getSource(page.site)
-            if source:
-                claim.addSource(source, bot=True)
-            if qualifier_debut is not None:
-                claim.addQualifier(qualifier_debut)
-            if qualifier_fin is not None:
-                claim.addQualifier(qualifier_fin)
-            if qualifier_pret is not None:
-                claim.addQualifier(qualifier_pret)
-            if qualifier_matchs is not None:
-                claim.addQualifier(qualifier_matchs)
-            if qualifier_buts is not None:
-                claim.addQualifier(qualifier_buts)
-        
+                            if existing.getTarget().getID() in ['Q476028', 'Q6979593', 'Q21945604', 'Q847017', 'Q12973014', 'Q15944511', 'Q14752149', 'Q6979740', 'Q2367225', 'Q4438121', 'Q18558301', 'Q15896028', 'Q1194951', 'Q23759293', 'Q23904672', 'Q23847779', 'Q23895910', 'Q23901123', 'Q23901137', 'Q23904671', 'Q23904673']:
+                            
+                                pywikibot.output(color_format('{green}win ! adding %s --> %s : %s, from %s to %s (loan : %s)'
+                                                % (claim.getID(), claim.getTarget(), value, wp_debut, wp_fin, wp_pret)))
+                                item.addClaim(claim)
+                                source = self.getSource(page.site)
+                                if source:
+                                    claim.addSource(source, bot=True)
+                                if qualifier_debut is not None:
+                                    claim.addQualifier(qualifier_debut)
+                                if qualifier_fin is not None:
+                                    claim.addQualifier(qualifier_fin)
+                                if qualifier_pret is not None:
+                                    claim.addQualifier(qualifier_pret)
+                                if qualifier_matchs is not None:
+                                    claim.addQualifier(qualifier_matchs)
+                                if qualifier_buts is not None:
+                                    claim.addQualifier(qualifier_buts)
+                                return
+                pywikibot.output(color_format('{red}nature of %s is not OK' % claim.getTarget()))                        
         return
+        
+    def ger_cleaning(self, pagetext):
 
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|Germany U-?15\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-15-Juniorinnen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|Germany U-?17\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-17-Juniorinnen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|Germany U-?19\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-19-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|Germany U-?20\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-20-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|Germany U-?21\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-21-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|Germany U-?23\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-23-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|West Germany U-?15\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-15-Juniorinnen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|West Germany U-?17\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-17-Juniorinnen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|West Germany U-?19\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-19-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|West Germany U-?20\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-20-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|West Germany U-?21\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-21-Frauen)]]', pagetext)
+        pagetext = re.sub(r'\[\[[a-zA-Z0-9_#\' \-]*\|West Germany U-?23\]\]', '[[:de:Deutsche Fußballnationalmannschaft (U-23-Frauen)]]', pagetext)
+        
+        return pagetext
+    
     def nft_cleaning(self, pagetext):
-
+        
         pagetext = pagetext.replace('{{fb|Afghanistan}}', '[[Afghanistan national football team]]')
         pagetext = pagetext.replace('{{fb|AFG}}', '[[Afghanistan national football team]]')
         pagetext = pagetext.replace('{{fb|Albania}}', '[[Albania national football team]]')
@@ -838,7 +878,7 @@ class HarvestRobot(WikidataBot):
                 pywikibot.output('Skipping')
                 return
                 
-        pagetext = page.get()
+        pagetext = page.get(False, True)
         # on met de côté les tableaux entraîneur et junior
 
         if self.param_debug:
@@ -908,6 +948,8 @@ class HarvestRobot(WikidataBot):
                             
                     if fielddict.get("nationalteam"+str(j)):
                         value = fielddict["nationalteam"+str(j)]
+                        if re.search(r'{{fb',value):
+                            value=self.nft_cleaning(value)
                         if fielddict.get("nationalyears"+str(j)):
                             qualif = fielddict["nationalyears"+str(j)]
                         if fielddict.get("nationalcaps"+str(j)):
