@@ -195,8 +195,14 @@ class HarvestRobot(WikidataBot):
             #if re.search(r'Estonia U-?15',value): 
             #    linked_item = pywikibot.ItemPage(self.repo, "Q23930638")      
             
-            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* U-?([12][0-9])\]\]', r'[[\1 national under-\2 football team]]', value)
-            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* Olympics\]\]', r'[[\1 national under-23 football team]]', value)      
+            #value = re.sub(r'\[\[([^\[\|0-9]*) national (football|soccer) team\|[^\|\]0-9]* [Uu]-?([12][0-9])\]\]', r'[[\1 national under-\3 \2 team]]', value)
+            #value = re.sub(r'\[\[([^\[\|0-9]*) national (football|soccer) team\|[^\|\]0-9]* Olympics\]\]', r'[[\1 national under-23 \2 team]]', value)
+            #value = re.sub(r'\[\[([^\[\|0-9]*) national (football|soccer) team\|[^\|\]0-9]* B\]\]', r'[[\1 national \2 B team]]', value)
+            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* [Uu]−([12][0-9])\]\]', r'[[\1 national under-\2 football team]]', value)
+            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]*-([12][0-9])\]\]', r'[[\1 national under-\2 football team]]', value)
+            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* Youth\]\]', r'[[\1 national under-18 football team]]', value)
+            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* Futsal\]\]', r'[[\1 national futsal team]]', value)
+            value = re.sub(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]*\]\]-? ?U?u?([12][0-9])', r'[[\1 national under-\2 football team]]', value)
                 
             #si suspicion d'ajout d'équipe B...           
             if re.search(r'\|[A-Za-z \-`\']* B\]\]',value): 
@@ -980,7 +986,8 @@ class HarvestRobot(WikidataBot):
                         value = fielddict["nationalteam"+str(k)]
                         
                         #si sélection nationale mal formatée
-                        if self.param_clean or re.search(r'\[\[[^\[\|0-9]* national football team\|[^\|\]0-9]* U-?[12][0-9]\]\]',value) or re.search(r'\[\[[^\[\|0-9]* national football team\|[^\|\]0-9]* Olympics\]\]',value):
+                        #if self.param_clean or re.search(r'\[\[[^\[\|0-9]* national football team\|[^\|\]0-9]* [uU]-?[12][0-9]\]\]',value) or re.search(r'\[\[[^\[\|0-9]* national football team\|[^\|\]0-9]* Olympics\]\]',value) or re.search(r'\[\[[^\[\|0-9]* national football team\|[^\|\]0-9]* B\]\]',value) or re.search(r'\[\[[^\[\|0-9]* national football team\|[^\|\]0-9]* amateur\]\]',value):
+                        if self.param_clean or re.search(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]*-([12][0-9])\]\]',value) or re.search(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* [Uu]−([12][0-9])\]\]',value) or re.search(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* Youth\]\]',value) or re.search(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]* Futsal\]\]',value) or re.search(r'\[\[([^\[\|0-9]*) national football team\|[^\|\]0-9]*\]\]-? ?U?u?([12][0-9])',value):
                             self.cleaning(item, value, page)
                             repopulate = True
                             break
