@@ -130,7 +130,7 @@ class HarvestRobot(WikidataBot):
             value = re.sub(r'\[\[([^\[]*) national football team\|[^\|]* Olympics\]\]', r'[[\1 national under-23 football team]]', value)      
             
             #si suspicion d'ajout d'équipe B...           
-            if re.search(r'\|[A-Za-z \-`\']* B\]\]',value): 
+            if re.search(r'[^ ][^B]\|[A-Za-z \-`\']* B\]\]',value): 
                 pywikibot.output(color_format(
                     '{red}B team ? to check : %s' 
                     % value))
