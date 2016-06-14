@@ -614,19 +614,19 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{Naz\|CA\|ZIM\|F\}\}', '[[Nazionale di calcio femminile dello Zimbabwe‎]]', pagetext)
         pagetext = re.sub(r'\{\{Naz\|CA\|ZWE\|F\}\}', '[[Nazionale di calcio femminile dello Zimbabwe‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BEL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Belgio‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ALB\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Albania‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|AFG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Afghanistan‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|AGO\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Angola‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ALB\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Albania‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ALG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Algeria‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ALB\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Albania‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|AFG\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Afghanistan‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|AGO\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Angola‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ALB\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Albania‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ALG\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Algeria‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|AND\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di Andorra‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ANG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Angola‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ANG\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Angola‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|ARE\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio degli Emirati Arabi Uniti‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ARG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Argentina‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ARM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Armenia‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|AUS\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Australia‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|AUT\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Austria‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|AZE\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Azerbaigian‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ARG\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Argentina‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ARM\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Armenia‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|AUS\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Australia‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|AUT\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Austria‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|AZE\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Azerbaigian‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BAN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Bangladesh‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BDI\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Burundi‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BEL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Belgio‎]]', pagetext)
@@ -635,7 +635,7 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|BGD\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Bangladesh‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BGR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Bulgaria‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BIH\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Bosnia ed Erzegovina‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|BIN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'India‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|BIN\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'India‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BLR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Bielorussia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BMU\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio delle Bermuda‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|BOL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Bolivia‎]]', pagetext)
@@ -655,7 +655,7 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|CHI\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Cile‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|CHL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Cile‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|CHN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Cina‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|CIV\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Costa d\'Avorio‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|CIV\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio della Costa d'Avorio‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|CKN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Repubblica Democratica del Congo‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|CMR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Camerun‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|COB\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Repubblica del Congo‎]]', pagetext)
@@ -672,24 +672,24 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|CYP\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di Cipro‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|CZE\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Repubblica Ceca‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DAH\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Benin‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|DDR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Germania dell\'Est‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|DEI\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Indonesia‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|DDR\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio della Germania dell'Est‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|DEI\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Indonesia‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DEN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Danimarca‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DEU\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Germania‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DHY\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Benin‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DMA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Dominica‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DNK\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Danimarca‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|DOM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Repubblica Dominicana‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|DZA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Algeria‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|DZA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Algeria‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|EAT\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Tanzania‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ECU\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Ecuador‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|EGY\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Egitto‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ENG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Inghilterra‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ECU\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Ecuador‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|EGY\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Egitto‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ENG\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Inghilterra‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|EQG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Guinea Equatoriale‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|ESA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di El Salvador‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|ESP\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Spagna‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|EST\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Estonia‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ETH\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Etiopia‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|EST\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Estonia‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ETH\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Etiopia‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|EUA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Germania‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|FIN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Finlandia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|FRA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Francia‎]]', pagetext)
@@ -699,7 +699,7 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|GAB\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Gabon‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GAM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Gambia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GBS\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Guinea-Bissau‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|GDR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Germania dell\'Est‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|GDR\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio della Germania dell'Est‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GEO\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Georgia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GEQ\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Guinea Equatoriale‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GER\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Germania‎]]', pagetext)
@@ -715,22 +715,22 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|GTM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Guatemala‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GUA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Guatemala‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|GUI\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Guinea‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|HND\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Honduras‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|HON\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Honduras‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|HND\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Honduras‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|HON\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Honduras‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|HRV\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Croazia‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|HUN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Ungheria‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|HUN\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Ungheria‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|HVO\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Burkina Faso‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IDN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Indonesia‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|INA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Indonesia‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IND\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'India‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IRE\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Irlanda‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IRI\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Iran‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IRL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Irlanda‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IRN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Iran‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|IRQ\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Iraq‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ISL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Islanda‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ISR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio d\'Israele‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|ITA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Italia‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IDN\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Indonesia‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|INA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Indonesia‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IND\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'India‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IRE\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Irlanda‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IRI\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Iran‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IRL\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Irlanda‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IRN\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Iran‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|IRQ\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Iraq‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ISL\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Islanda‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ISR\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio d'Israele‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|ITA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Italia‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|JAM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Giamaica‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|JOR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Giordania‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|JPN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Giappone‎]]', pagetext)
@@ -740,7 +740,7 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|KHM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Cambogia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|KOR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Corea del Sud‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|KOS\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Kosovo‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|KSA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Arabia Saudita‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|KSA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Arabia Saudita‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|LAO\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Laos‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|LAT\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Lettonia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|LBA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Libia‎]]', pagetext)
@@ -792,17 +792,17 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|NHB\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di Vanuatu‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NIC\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Nicaragua‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NIG\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Niger‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|NIR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Irlanda del Nord‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|NIR\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Irlanda del Nord‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NLD\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dei Paesi Bassi‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NOR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Norvegia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NPL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Nepal‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NRH\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dello Zambia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NYE\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dello Yemen‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|NZL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Nuova Zelanda‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|OMA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Oman‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|OMN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Oman‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|OMA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Oman‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|OMN\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Oman‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|PAK\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Pakistan‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|PAL\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio d\'Israele‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|PAL\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio d'Israele‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|PAN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di Panamá‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|PAR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Paraguay‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|PER\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Perù‎]]', pagetext)
@@ -832,7 +832,7 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|RUS\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Russia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|RWA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Ruanda‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SAM\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio delle Samoa‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|SAU\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Arabia Saudita‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|SAU\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Arabia Saudita‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SCO\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Scozia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SDN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Sudan‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SEN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Senegal‎]]', pagetext)
@@ -856,7 +856,7 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|STP\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di São Tomé e Príncipe‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SUD\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Sudan‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SUI\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Svizzera‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|SUN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Unione Sovietica‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|SUN\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Unione Sovietica‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SUR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Suriname‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SVK\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Slovacchia‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|SVN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Slovenia‎]]', pagetext)
@@ -888,20 +888,20 @@ class HarvestRobot(WikidataBot):
         pagetext = re.sub(r'\{\{NazU\|CA\|TUV\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio delle Tuvalu‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|TWN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di Taiwan‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|TZA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio della Tanzania‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|U.S.A.\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio degli Stati Uniti d\'America‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|U.S.A.\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio degli Stati Uniti d'America‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|UAE\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio degli Emirati Arabi Uniti‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|UAR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Egitto‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|UGA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Uganda‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|UAR\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Egitto‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|UGA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Uganda‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|UK\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Regno Unito‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|UKR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Ucraina‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|UKR\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Ucraina‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|UPV\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Burkina Faso‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|URS\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Unione Sovietica‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|URU\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Uruguay‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|URY\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Uruguay‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|US\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio degli Stati Uniti d\'America‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|USA\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio degli Stati Uniti d\'America‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|UZB\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio dell\'Uzbekistan‎]]', pagetext)
-        pagetext = re.sub(r'\{\{NazU\|CA\|Usa\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio degli Stati Uniti d\'America‎]]', pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|URS\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Unione Sovietica‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|URU\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Uruguay‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|URY\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Uruguay‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|US\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio degli Stati Uniti d'America‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|USA\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio degli Stati Uniti d'America‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|UZB\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio dell'Uzbekistan‎]]", pagetext)
+        pagetext = re.sub(r'\{\{NazU\|CA\|Usa\| *\|([1-2][0-9])\}\}', r"[[Nazionale Under-\1 di calcio degli Stati Uniti d'America‎]]", pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|VAN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio di Vanuatu‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|VDR\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Vietnam‎]]', pagetext)
         pagetext = re.sub(r'\{\{NazU\|CA\|VEN\| *\|([1-2][0-9])\}\}', r'[[Nazionale Under-\1 di calcio del Venezuela‎]]', pagetext)
@@ -9109,7 +9109,8 @@ class HarvestRobot(WikidataBot):
         # on met de côté les tableaux entraîneur et junior
         pagetext = re.sub(r'SquadreGiovanili *=[^{|]*{{', 'SquadreGiovanili = {{Pouet', pagetext)
         pagetext = re.sub(r'Allenatore *=[^{|]*{{', 'Allenatore = {{Pouet', pagetext)
-        #pagetext = re.sub(r'SquadreNazionali=[^{]*{{', 'SquadreNazionali = {{Pouet', pagetext)
+        #pagetext = re.sub(r'Squadre *=[^{]*{{', 'Squadre = {{Pouet', pagetext)
+        #pagetext = re.sub(r'SquadreNazionali *=[^{]*{{', 'SquadreNazionali = {{Pouet', pagetext)
         if self.param_debug:
             pywikibot.output(
                 'self.fields %s' 
@@ -9231,7 +9232,7 @@ class HarvestRobot(WikidataBot):
                         if (qualif.find('-') == -1): 
                             qualif = qualif + '-' + qualif 
                         dates = qualif.split('-')
-                        if dates[0]:
+                        if len(dates)>0:
                             wp_debut = dates[0][:4]
                             if wp_debut.isdigit():
                                 if len(wp_debut)==4:
@@ -9241,7 +9242,7 @@ class HarvestRobot(WikidataBot):
                                         pywikibot.output(' from %s'
                                             % qualifier_debut.getTarget().toTimestr())
                                     
-                                    if dates[1]:
+                                    if len(dates)>1:
                                         wp_fin = dates[1][:4]
                                         if wp_fin.isdigit():
                                             if len(wp_fin)==4:
@@ -9270,14 +9271,14 @@ class HarvestRobot(WikidataBot):
                         stats = stats.replace ('–', '-')
                         stats = re.sub(r'[a-zA-Zéêû&; \.\[\?\]\{\}\|]', '', stats)
                         tstats = stats.split('(')
-                        if tstats[0]:
+                        if len(tstats)>0:
                             nb_matchs = tstats[0].strip()
                             if nb_matchs.isdigit():
                                 nb_matchs = int(nb_matchs)
                                 if nb_matchs > 0:
                                     qualifier_matchs = pywikibot.Claim(self.repo, u'P1350', isQualifier=True)
-                                    qualifier_matchs.setTarget(pywikibot.WbQuantity(amount=int(nb_matchs), error=0))                                
-                                    if tstats[1]:
+                                    qualifier_matchs.setTarget(pywikibot.WbQuantity(amount=int(nb_matchs), error=0))   
+                                    if len(tstats)>1:
                                         nb_buts = tstats[1].strip()
                                         nb_buts = nb_buts.replace ('-', '0').replace (')', '')
                                         if nb_buts.isdigit():
@@ -9360,6 +9361,7 @@ class HarvestRobot(WikidataBot):
                                             pywikibot.output(' loan %s -> %s'
                                                 % (existing1642[0].getTarget(), wd_pret))
                                     #si mêmes qualifiers : on passe
+                                    #attention bug à corriger : si aucun qualif sur WD et des qualifs sur WP, ça doit ajouter juste les qualifs !
                                     if (wd_debut == wp_debut or qualifier_debut is None) and (wd_fin == wp_fin or qualifier_fin is None) and (existing1642 is not None or qualifier_pret is None) and (existing1350 is not None or qualifier_matchs is None) and (existing1351 is not None or qualifier_buts is None):
                                         pywikibot.output(
                                             'Skipping %s because claim with same target already exists.' 
@@ -9392,13 +9394,13 @@ class HarvestRobot(WikidataBot):
                                             % team))
                                         qual_added=True
                                     #ajout du qualif nb_matchs si on a une donnée, qu'il y a la place et que dates cohérentes
-                                    if qualifier_matchs is not None and not existing1350 and (wd_debut == wp_debut and wd_fin == wp_fin or qual_added):
+                                    if qualifier_matchs is not None and not existing1350 and (not existing580 or wd_debut == wp_debut) and (not existing582 or wd_fin == wp_fin):
                                         existing.addQualifier(qualifier_matchs)
                                         pywikibot.output(color_format('{green}adding %s as a nb matchs of %s'
                                             % (nb_matchs,team)))
                                         qual_added=True
                                     #ajout du qualif nb_buts si on a une donnée, qu'il y a la place et que dates cohérentes
-                                    if qualifier_buts is not None and not existing1351 and (wd_debut == wp_debut and wd_fin == wp_fin or qual_added):
+                                    if qualifier_buts is not None and not existing1351 and (not existing580 or wd_debut == wp_debut) and (not existing582 or wd_fin == wp_fin):
                                         existing.addQualifier(qualifier_buts)
                                         pywikibot.output(color_format('{green}adding %s as a nb buts of %s'
                                             % (nb_buts,team)))
@@ -9469,6 +9471,8 @@ def main(*args):
     @type args: list of unicode
     """
     commandline_arguments = list()
+    commandline_arguments.append('2')
+    commandline_arguments.append('P54')
     template_title = u'Carriera sportivo'
     # Process global args and prepare generator args parser
     local_args = pywikibot.handle_args(args)
